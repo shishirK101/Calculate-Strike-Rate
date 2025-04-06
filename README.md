@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cricket Strike Rate Analyzer</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #f3f8ff;
+padding: 20px;
+}
+h1 {
+text-align: center;
+color: #333;
+}
+.container {
+max-width: 500px;
+margin: auto;
+background: white;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+label {
+display: block;
+margin-top: 10px;
+font-weight: bold;
+}
+input, select {
+width: 100%;
+padding: 8px;
+margin-top: 5px;
+border-radius: 5px;
+border: 1px solid #ccc;
+}
+button {
+margin-top: 15px;
+width: 100%;
+padding: 10px;
+background-color: #28a745;
+border: none;
+color: white;
+font-size: 16px;
+cursor: pointer;
+border-radius: 5px;
+}
+button:hover {
+background-color: #218838;
+}
+#result {
+margin-top: 20px;
+padding: 15px;
+background-color: #eef;
+border-left: 5px solid #007BFF;
+}
+</style>
+</head>
+<body>
+
+<h1>🏏 Cricket Strike Rate Analyzer</h1>
+<div class="container">
+<label>Player Name:</label>
+<input type="text" id="playerName">
+
+<label>Match Format:</label>
+<select id="format">
+<option value="T20">T20</option>
+<option value="ODI">ODI</option>
+<option value="Test">Test</option>
+</select>
+
+<label>Runs Scored:</label>
+<input type="number" id="runs" min="0">
+
+<label>Balls Faced:</label>
+<input type="number" id="balls" min="1">
+
+<button onclick="analyze()">Calculate Strike Rate</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+function analyze() {
+const name = document.getElementById("playerName").value;
+const format = document.getElementById("format").value;
+const runs = parseInt(document.getElementById("runs").value);
+const balls = parseInt(document.getElementById("balls").value);
+const resultDiv = document.getElementById("result");
+
+if (!name || isNaN(runs) || isNaN(balls) || balls === 0) {
+resultDiv.innerHTML = "<b>Please fill all fields correctly.</b>";
+return;
+}
+
+const strikeRate = ((runs / balls) * 100).toFixed(2);
+let analysis = "";
+
+if (format === "T20") {
+if (strikeRate >= 150) analysis = `🔥 Massive hitting by ${name}! Total carnage!`;
+else if (strikeRate >= 120) analysis = `👏 Decent T20 knock with smart strike rotation.`;
+else analysis = `😐 Slow innings for T20. Needs more aggressive play.`;
+} else if (format === "ODI") {
+if (strikeRate >= 100) analysis = `💥 Good attacking intent in ODIs!`;
+else if (strikeRate >= 75) analysis = `👍 Balanced innings, paced well.`;
+else analysis = `🛡️ Defensive knock, may need to push more next time.`;
+} else if (format === "Test") {
+if (strikeRate >= 70) analysis = `💣 Aggressive for Test cricket! Confident batting.`;
+else if (strikeRate >= 40) analysis = `🧠 Sensible and balanced Test knock.`;
+else analysis = `🛡️ Classic Test defense. Good patience and technique.`;
+}
+
+resultDiv.innerHTML = `
+<h3>Player: ${name}</h3>
+<p><strong>Format:</strong> ${format}</p>
+<p><strong>Runs:</strong> ${runs}</p>
+<p><strong>Balls Faced:</strong> ${balls}</p>
+<p><strong>Strike Rate:</strong> ${strikeRate}</p>
+<p><strong>Analysis:</strong> ${analysis}</p>
+`;
+}
+</script>
+</body>
+</html>
